@@ -27,9 +27,13 @@ export class AmplifyFederatedButtons {
     const { oauth = {} } = Auth.configure({});
 
     // backward compatibility
-    if (oauth['domain']) {
-      this.federated.oauthConfig = { ...this.federated.oauthConfig, ...oauth };
-    } else if (oauth['awsCognito']) {
+    /**
+     * PVM: Remove backwards compatability
+    // if (oauth['domain']) {
+    //   this.federated.oauthConfig = { ...this.federated.oauthConfig, ...oauth };
+    // } else
+    */
+    if (oauth['awsCognito']) {
       this.federated.oauthConfig = { ...this.federated.oauthConfig, ...oauth['awsCognito'] };
     }
 

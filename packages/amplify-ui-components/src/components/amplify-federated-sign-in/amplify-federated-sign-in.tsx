@@ -25,9 +25,13 @@ export class AmplifyFederatedSignIn {
     const { oauth = {} } = Auth.configure({});
 
     // backward compatibility
-    if (oauth['domain']) {
-      this.federated.oauth_config = { ...this.federated.oauth_config, ...oauth };
-    } else if (oauth['awsCognito']) {
+    /**
+     * PVM: Remove backwards compatability
+    // if (oauth['domain']) {
+    //   this.federated.oauthConfig = { ...this.federated.oauthConfig, ...oauth };
+    // } else
+    */
+    if (oauth['awsCognito']) {
       this.federated.oauth_config = { ...this.federated.oauth_config, ...oauth['awsCognito'] };
     }
 
