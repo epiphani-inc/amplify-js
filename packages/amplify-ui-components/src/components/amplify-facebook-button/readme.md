@@ -5,10 +5,11 @@
 
 ## Properties
 
-| Property                | Attribute | Description                                                                                 | Type                                                | Default                        |
-| ----------------------- | --------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------ |
-| `appId`                 | `app-id`  | App-specific client ID from Facebook                                                        | `string`                                            | `undefined`                    |
-| `handleAuthStateChange` | --        | Auth state change handler for this component e.g. SignIn -> 'Create Account' link -> SignUp | `(nextAuthState: AuthState, data?: object) => void` | `dispatchAuthStateChangeEvent` |
+| Property                   | Attribute | Description                                                                                                                                        | Type                                                | Default                        |
+| -------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------ |
+| `appId`                    | `app-id`  | App-specific client ID from Facebook                                                                                                               | `string`                                            | `undefined`                    |
+| `externalFederatedHandler` | --        | An external callback function that will be called to perform the federated google login when the button is clicked instead of the built in handler | `() => void`                                        | `undefined`                    |
+| `handleAuthStateChange`    | --        | Auth state change handler for this component e.g. SignIn -> 'Create Account' link -> SignUp                                                        | `(nextAuthState: AuthState, data?: object) => void` | `dispatchAuthStateChangeEvent` |
 
 
 ## Dependencies

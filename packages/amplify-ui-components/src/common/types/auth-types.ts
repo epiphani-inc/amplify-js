@@ -75,6 +75,7 @@ export interface CognitoUserInterface {
 }
 
 export type AuthStateHandler = (nextAuthState: AuthState, data?: object) => void;
+export type ExternalFederatedHandler = () => void;
 
 export enum MfaOption {
   TOTP = 'TOTP',

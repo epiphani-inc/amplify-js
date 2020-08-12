@@ -4,7 +4,7 @@ import { Component, h, Prop } from '@stencil/core';
 import { dispatchAuthStateChangeEvent } from '../../common/helpers';
 import { AUTH_SOURCE_KEY, NO_AUTH_MODULE_FOUND } from '../../common/constants';
 import { Translations } from '../../common/Translations';
-import { AuthState, FederatedConfig, AuthStateHandler } from '../../common/types/auth-types';
+import { AuthState, FederatedConfig, AuthStateHandler, ExternalFederatedHandler } from '../../common/types/auth-types';
 
 const logger = new Logger('amplify-google-button');
 
@@ -19,6 +19,8 @@ export class AmplifyGoogleButton {
   @Prop() handleAuthStateChange: AuthStateHandler = dispatchAuthStateChangeEvent;
   /** App-specific client ID from Google */
   @Prop() clientId: FederatedConfig['googleClientId'];
+  /** An external callback function that will be called to perform the federated google login when the button is clicked instead of the built in handler  */
+  @Prop() externalFederatedHandler: ExternalFederatedHandler;
 
   private getAuthInstance() {
     if (window['gapi'] && window['gapi'].auth2) {
@@ -38,10 +40,14 @@ export class AmplifyGoogleButton {
   private signInWithGoogle(event) {
     event.preventDefault();
 
-    this.getAuthInstance()
-      .signIn()
-      .then(this.handleUser)
-      .catch(this.handleError);
+    if (this.externalFederatedHandler) {
+      this.externalFederatedHandler();
+    } else {
+      this.getAuthInstance()
+        .signIn()
+        .then(this.handleUser)
+        .catch(this.handleError);
+    }
   }
 
   private handleError = error => {

@@ -3,7 +3,7 @@ import { I18n, ConsoleLogger as Logger } from '@aws-amplify/core';
 import { Component, h, Prop } from '@stencil/core';
 
 import { AUTH_SOURCE_KEY, NO_AUTH_MODULE_FOUND } from '../../common/constants';
-import { AuthState, FederatedConfig, AuthStateHandler } from '../../common/types/auth-types';
+import { AuthState, FederatedConfig, AuthStateHandler, ExternalFederatedHandler } from '../../common/types/auth-types';
 import { dispatchAuthStateChangeEvent } from '../../common/helpers';
 import { Translations } from '../../common/Translations';
 
@@ -20,6 +20,8 @@ export class AmplifyFacebookButton {
    * e.g. SignIn -> 'Create Account' link -> SignUp
    */
   @Prop() handleAuthStateChange: AuthStateHandler = dispatchAuthStateChangeEvent;
+  /** An external callback function that will be called to perform the federated google login when the button is clicked instead of the built in handler  */
+  @Prop() externalFederatedHandler: ExternalFederatedHandler;
 
   private federatedSignIn = authResponse => {
     const { accessToken, expiresIn } = authResponse;
@@ -72,14 +74,18 @@ export class AmplifyFacebookButton {
   private signInWithFacebook(event) {
     event.preventDefault();
 
-    window['FB'].init({
-      appId: this.appId,
-      cookie: true,
-      xfbml: false,
-      version: 'v5.0',
-    });
+    if (this.externalFederatedHandler) {
+      this.externalFederatedHandler();
+    } else {
+      window['FB'].init({
+        appId: this.appId,
+        cookie: true,
+        xfbml: false,
+        version: 'v5.0',
+      });
 
-    this.getLoginStatus();
+      this.getLoginStatus();
+    }
   }
 
   private login = () => {
