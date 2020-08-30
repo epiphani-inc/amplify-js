@@ -165,7 +165,8 @@ export class AmplifyAuthenticator {
       case AuthState.Loading:
         return (
           <slot name="loading">
-            <div>Loading...</div>
+            {/*<div>Loading...</div>*/}
+            <div> </div>
           </slot>
         );
       case AuthState.SignedIn:
